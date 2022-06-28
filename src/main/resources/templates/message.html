@@ -6,13 +6,13 @@
 </head>
 
 <script th:inline="javascript">
-    /<![CDATA[/
+    /*<![CDATA[*/
     var message = [[${message}]];
     alert(message);
 
     location.replace([[${searchUrl}]]);
 
-    /]]>/
+    /*]]>*/
 </script>
 
 <body>

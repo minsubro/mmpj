@@ -19,8 +19,6 @@ public class Member {
 
     private String e_mail;
 
-    private String birth;
-
     private String nickname;
 
     private String password;
