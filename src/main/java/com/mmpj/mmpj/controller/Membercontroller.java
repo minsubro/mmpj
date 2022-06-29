@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.mmpj.mmpj.entity.Member;
 
-import java.util.Optional;
+import java.util.Objects;
 
 @Controller
-public class membercontroller {
+public class Membercontroller {
 
 
+    public Member nowmember;
+    public Boolean islogin = false;
 
     @Autowired
     MemberSerivce memberSerivce;
@@ -24,6 +26,8 @@ public class membercontroller {
 
     @GetMapping("/")
     public String mainview() {
+        if (islogin)
+            return "return";
         return "mainview";
     }
 
@@ -51,13 +55,13 @@ public class membercontroller {
     }
 
     public String nullcheck(Member member) {
-        if (member.getId() == "")
+        if (Objects.equals(member.getId(), ""))
             return "아이디가 비어있습니다";
-        if (member.getPassword() == "")
+        if (Objects.equals(member.getPassword(), ""))
             return "비밀번호가 비어있습니다";
-        if (member.getE_mail() == "")
+        if (Objects.equals(member.getE_mail(), ""))
             return "이메일이 비어있습니다";
-        if (member.getNickname() == "")
+        if (Objects.equals(member.getNickname(), ""))
             return "닉네임이 비어있습니다";
         if (memberSerivce.idDupCheck(member.getId()))
             return "이미 사용중인 아이디 입니다";
@@ -67,20 +71,15 @@ public class membercontroller {
     @PostMapping("login/check")
     public String logincheck(String id, String password, Model model) {
         String check = memberSerivce.logindatafind(id, password);
-        System.out.println(check);
-        if (check == null)
+        if (check == null) {
+            nowmember = memberSerivce.findmember(id);
+            islogin = true;
             return "redirect:/board/list";
+        }
         else {
             model.addAttribute("message", check);
             model.addAttribute("searchUrl", "/");
             return "message";
         }
     }
-
-    @GetMapping("board/list")
-    public String boardlist() {
-        return "boardlist";
-    }
-
-
 }

@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시글 리스트</title>
 </head>
+
+<style>
+
+
+</style>
+
 <body>
-나옴 ㅋ
+        <form action="/logout" method="post">
+            <button>로그아웃</button>
+        </form>
+        <form action="/board/write" method="get">
+            <button>글 작성</button>
+        </form>
+        <div class="layout">
+
+            <table>
+                <thead>
+                <tr>
+                    <th>글번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성시간</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${list}">
+                    <td th:text="${board.pk}">1</td>
+                    <td>
+                        <a th:text="${board.title}" th:href="@{/board/view(pk=${board.pk})}"></a>
+                    </td>
+                    <td th:text="${board.user}"></td>
+                    <td th:text="${board.date}"></td>
+                    <td th:text="${board.view}"></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
 </body>
 </html>

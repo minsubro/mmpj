@@ -28,13 +28,18 @@ public class MemberSerivce {
 
     public String logindatafind(String id, String pass) {
         Optional<Member> member = membersrepository.findByid(id);
+
         if (!member.isPresent())
             return "존재하지 않는 아이디 입니다.";
 
-        System.out.println(pass + " " + member.get().getPassword());
         if (Objects.equals(pass, member.get().getPassword()))
             return null;
         else
             return "패스워드가 틀렸습니다";
     }
+
+    public Member findmember(String id) {
+        return membersrepository.findByid(id).get();
+    }
+
 }
